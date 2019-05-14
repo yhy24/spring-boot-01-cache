@@ -1,0 +1,102 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yang.cache.mapper.UserMapper">
+
+   <resultMap id="userMap" type="com.yang.cache.bean.User">
+       <id property="id" column="id" jdbcType="BIGINT" />
+       <result property="age" column="age" jdbcType="TINYINT"/>
+       <result property="username" column="username" jdbcType="VARCHAR"/>
+       <result property="password" column="password" jdbcType="VARCHAR"/>
+       <result property="phone" column="phone" jdbcType="VARCHAR"/>
+       <result property="email" column="email" jdbcType="VARCHAR"/>
+       <result property="sexly" column="sexly" jdbcType="VARCHAR"/>
+       <result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
+       <result property="modifyDate" column="modify_date" jdbcType="TIMESTAMP"/>
+       <result property="interest" column="interest" jdbcType="VARCHAR"/>
+       <result property="mark" column="mark" jdbcType="VARCHAR"/>
+       <result property="gender" column="gender" jdbcType="VARCHAR"/>
+       <result property="deptId" column="deptId" jdbcType="BIGINT"/>
+       <result property="code" column="code" jdbcType="VARCHAR"/>
+   </resultMap>
+
+
+    <insert id="insertUser" parameterType="com.yang.cache.bean.User">
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null ">
+              username,
+            </if>
+            <if test="password != null ">
+                password,
+            </if>
+            <if test="age != null ">
+                age,
+            </if>
+            <if test="sexly != null ">
+                sexly,
+            </if>
+            <if test="interest != null ">
+                interest,
+            </if>
+            <if test="phone != null ">
+                phone,
+            </if>
+            <if test="email != null ">
+                email,
+            </if>
+            <if test="createDate != null ">
+                create_date,
+            </if>
+            <if test="code != null ">
+                code,
+            </if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null and id !='' ">
+                #{id},
+            </if>
+            <if test="username != null and username !=''">
+                #{username},
+            </if>
+            <if test="password != null and password !=''">
+                #{password},
+            </if>
+            <if test="age != null and age !=''">
+                #{age},
+            </if>
+            <if test="sexly != null and sexly !=''">
+                #{sexly},
+            </if>
+            <if test="interest != null and interest !=''">
+                #{interest},
+            </if>
+            <if test="phone != null and phone !=''">
+                #{phone},
+            </if>
+            <if test="email != null and email !=''">
+                #{email},
+            </if>
+            <if test="createDate != null and createDate !=''">
+                #{createDate},
+            </if>
+            <if test="code != null and code !=''">
+                #{code},
+            </if>
+        </trim>
+    </insert>
+    <select id="getUserInfo" resultMap="userMap" parameterType="com.yang.cache.bean.User">
+        select * from user_info
+
+        <where>
+            id = #{id}
+            <if test="code !=null and code !=''">
+            and code =#{code}
+            </if>
+        </where>
+    </select>
+</mapper>
