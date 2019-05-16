@@ -46,7 +46,7 @@ public class UserController {
 
     @RequestMapping(value = "/info",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
     public String getUserInfo(@RequestBody User user) {
-        System.out.println("************coming***********"+JSON.toJSONString(user));
+        System.out.println("************coming**************"+JSON.toJSONString(user));
         /*User user = new User();
         user.setId(417);
         user.setCode("1");*/
