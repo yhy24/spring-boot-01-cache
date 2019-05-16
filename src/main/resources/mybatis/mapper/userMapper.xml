@@ -28,7 +28,7 @@
                 id,
             </if>
             <if test="username != null ">
-              username,
+                username,
             </if>
             <if test="password != null ">
                 password,
@@ -53,6 +53,9 @@
             </if>
             <if test="code != null ">
                 code,
+            </if>
+            <if test="mark != null and mark != '' ">
+                mark,
             </if>
         </trim>
 
@@ -87,16 +90,108 @@
             <if test="code != null and code !=''">
                 #{code},
             </if>
+            <if test="mark != null and mark != ''">
+                #{mark},
+            </if>
         </trim>
     </insert>
+    <update id="updateInfo" parameterType="com.yang.cache.bean.User">
+        update user_info
+        <set>
+            <if test="username != null and username !=''">
+                username=#{username},
+            </if>
+            <if test="password != null and password !=''">
+                password=#{password},
+            </if>
+            <if test="age != null and age !=''">
+                age= #{age},
+            </if>
+            <if test="sexly != null and sexly !=''">
+                sexly=#{sexly},
+            </if>
+            <if test="interest != null and interest !=''">
+                interest= #{interest},
+            </if>
+            <if test="phone != null and phone !=''">
+                phone= #{phone},
+            </if>
+            <if test="email != null and email !=''">
+                email= #{email},
+            </if>
+            <if test="createDate != null and createDate !=''">
+                create_date=#{createDate},
+            </if>
+            <if test="code != null and code !=''">
+                code=#{code},
+            </if>
+            <if test="mark != null and mark !='' ">
+                mark=#{mark},
+            </if>
+        </set>
+      where id=#{id}
+    </update>
+    <delete id="deleteInfo" parameterType="com.yang.cache.bean.User">
+        delete from user_info where id=#{id}
+    </delete>
+
     <select id="getUserInfo" resultMap="userMap" parameterType="com.yang.cache.bean.User">
         select * from user_info
-
         <where>
-            id = #{id}
-            <if test="code !=null and code !=''">
-            and code =#{code}
+            code='1'
+            <if test="username != null and username !=''">
+              and  username=#{username}
+            </if>
+            <if test="password != null and password !=''">
+                and   password=#{password}
+            </if>
+            <if test="age != null and age !=''">
+                and  age= #{age}
+            </if>
+            <if test="sexly != null and sexly !=''">
+                and  sexly=#{sexly}
+            </if>
+            <if test="interest != null and interest !=''">
+                and  interest= #{interest}
+            </if>
+            <if test="phone != null and phone !=''">
+                and  phone= #{phone}
+            </if>
+            <if test="email != null and email !=''">
+                and   email= #{email}
+            </if>
+            <if test="createDate != null and createDate !=''">
+                and   create_date=#{createDate}
+            </if>
+            <if test="mark != null and mark !='' ">
+                and   mark=#{mark}
             </if>
         </where>
     </select>
+    <!--list集合的格式删除-->
+    <delete id="deleteUser" parameterType="com.yang.cache.bean.UserDO">
+        delete from user_info
+        where id IN
+        <foreach collection="lists" item="id" index="index" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <!--字符传的格式删除-->
+    <delete id="deleteUserByIds" parameterType="com.yang.cache.bean.UserDO">
+        delete from user_info
+        where id IN
+        <foreach collection="ids.split(',')" item="id" index="index" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <insert id="insertUsers" parameterType="com.yang.cache.bean.User">
+        insert into user_info (id,username,password,code,mark) values
+        <foreach collection="lists" item="user" index="index" separator=",">
+            (#{user.id},
+            #{user.username},
+            #{user.password},
+            #{user.code},
+            #{user.mark})
+        </foreach>
+    </insert>
 </mapper>

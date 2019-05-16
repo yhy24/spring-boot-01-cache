@@ -1,6 +1,10 @@
 package com.yang.cache.mapper;
 
 import com.yang.cache.bean.User;
+import com.yang.cache.bean.UserDO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @Author: yhy
@@ -12,5 +16,13 @@ public interface UserMapper {
 
     public User getUserInfo(User user);
 
+    public int updateInfo(User user);
+
+    public int deleteInfo(User user);
+
+    public int deleteUser(UserDO userDO);
+    public int deleteUserByIds(UserDO userDO);
+
+    public int insertUsers(@Param("lists") List<User> lists);
 
 }
