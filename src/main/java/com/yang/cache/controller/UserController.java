@@ -26,7 +26,7 @@ public class UserController {
     @RequestMapping(value = "/saveUser",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public String inserUser(@RequestBody User user) {
-        System.out.println("************coming***********"+JSON.toJSONString(user));
+        System.out.println("********coming*****"+JSON.toJSONString(user));
        /* User user = new User();
         user.setAge(21);
         user.setUsername("小白菜zl");
