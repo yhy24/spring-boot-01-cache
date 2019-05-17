@@ -38,7 +38,7 @@ public class UserController {
         user.setId(419);
         user.setPhone("9527zwn");
         user.setSexly("g");*/
-        userService.insertUser(user);
+//        userService.insertUser(user);
         System.out.println(user.toString());
 
         return JSON.toJSONString(user);

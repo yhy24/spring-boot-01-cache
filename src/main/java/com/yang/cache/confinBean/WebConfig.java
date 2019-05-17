@@ -30,8 +30,8 @@ public class WebConfig implements WebMvcConfigurer {
     public PrivateIntercepter privateIntercepter() {
         return new PrivateIntercepter();
     }
-/*注册过滤器的使用*/
-    @Bean
+/*注册过滤器的第一种方式的使用：使用@Bean的方式*/
+    /*@Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterBean = new FilterRegistrationBean();
         filterBean.setFilter(new DataFilter());
@@ -39,5 +39,5 @@ public class WebConfig implements WebMvcConfigurer {
         filterBean.setName("dataFilter");
         filterBean.setOrder(0);
         return filterBean;
-    }
+    }*/
 }
