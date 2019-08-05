@@ -25,4 +25,6 @@ public interface UserMapper {
 
     public int insertUsers(@Param("lists") List<User> lists);
 
+    public User getUserMessage(@Param("userName") String userName);
+
 }

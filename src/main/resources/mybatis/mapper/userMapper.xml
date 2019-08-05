@@ -168,6 +168,9 @@
             </if>
         </where>
     </select>
+    <select id="getUserMessage" resultMap="userMap">
+        select * from user_info where username = #{userName}
+    </select>
     <!--list集合的格式删除-->
     <delete id="deleteUser" parameterType="com.yang.cache.bean.UserDO">
         delete from user_info

@@ -69,4 +69,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.insertUsers(lists);
     }
 
+    @Override
+    public User getUserMessage(String userName) {
+        return userMapper.getUserMessage(userName);
+    }
+
 }

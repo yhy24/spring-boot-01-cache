@@ -4,6 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.yang.cache.bean.User;
 import com.yang.cache.bean.UserDO;
 import com.yang.cache.service.UserService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +23,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    private Subject subject;
 
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/saveUser",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/saveUser", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String inserUser(@RequestBody User user) {
-        System.out.println("********coming*****"+JSON.toJSONString(user));
+        System.out.println("********coming*****" + JSON.toJSONString(user));
        /* User user = new User();
         user.setAge(21);
         user.setUsername("小白菜zl");
@@ -44,9 +49,9 @@ public class UserController {
         return JSON.toJSONString(user);
     }
 
-    @RequestMapping(value = "/info",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
+    @RequestMapping(value = "/info", produces = "application/json;charset=utf-8", method = RequestMethod.POST)
     public String getUserInfo(@RequestBody User user) {
-        System.out.println("************coming**************"+JSON.toJSONString(user));
+        System.out.println("************coming**************" + JSON.toJSONString(user));
         /*User user = new User();
         user.setId(417);
         user.setCode("1");*/
@@ -54,9 +59,9 @@ public class UserController {
         return JSON.toJSONString(userInfo);
     }
 
-    @RequestMapping(value = "/deleteInfo",method = RequestMethod.POST)
-    public String deleteUser(@RequestBody User user){
-        System.out.println("************coming***********"+JSON.toJSONString(user));
+    @RequestMapping(value = "/deleteInfo", method = RequestMethod.POST)
+    public String deleteUser(@RequestBody User user) {
+        System.out.println("************coming***********" + JSON.toJSONString(user));
        /* User user = new User();
         user.setAge(21);
         user.setUsername("小白菜123");
@@ -71,9 +76,10 @@ public class UserController {
         int i = userService.deleteUser(user);
         return JSON.toJSONString(i);
     }
-    @RequestMapping(value = "/updateInfo",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+
+    @RequestMapping(value = "/updateInfo", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     public String updateUser(@RequestBody User user) {
-        System.out.println("************coming***********"+JSON.toJSONString(user));
+        System.out.println("************coming***********" + JSON.toJSONString(user));
        /* User user = new User();
         user.setAge(23);
         user.setUsername("小白菜yhy");
@@ -88,21 +94,22 @@ public class UserController {
         User user1 = userService.updateUser(user);
         return JSON.toJSONString(user1);
     }
-    @RequestMapping(value = "/deleteByl",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+
+    @RequestMapping(value = "/deleteByl", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     public String deleteUserL(@RequestBody UserDO userDO) {
-        System.out.println("****cmoing*******"+JSON.toJSONString(userDO));
+        System.out.println("****cmoing*******" + JSON.toJSONString(userDO));
         int i = userService.deleteUser(userDO);
         return JSON.toJSONString(i);
     }
 
-    @RequestMapping(value = "/deleteByS",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/deleteByS", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     public String deleteUserS(@RequestBody UserDO userDO) {
-        System.out.println("****cmoing*******"+JSON.toJSONString(userDO));
+        System.out.println("****cmoing*******" + JSON.toJSONString(userDO));
         int i = userService.deleteUserByIds(userDO);
         return JSON.toJSONString(i);
     }
 
-    @RequestMapping(value = "/insertUsers",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/insertUsers", produces = "application/json;charset=utf-8")
     public String insertUsers() {
         List<User> lists = new ArrayList<>();
         User user = new User();
@@ -122,9 +129,19 @@ public class UserController {
     }
 
 
-
-
-
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    public String loginShiro(@RequestBody User user) {
+        System.out.println("*****coming******"+JSON.toJSONString(user));
+        try {
+            subject = SecurityUtils.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword(), true);
+            subject.login(token);
+        } catch (AuthenticationException e) {
+            System.out.println("验证失败的！"+e.getMessage());
+            return "验证失败!";
+        }
+        return "登陆成功!";
+    }
 
 
 }

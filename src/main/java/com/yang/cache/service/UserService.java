@@ -20,4 +20,5 @@ public interface UserService {
     public int deleteUser(UserDO userDO);
     public int deleteUserByIds(UserDO userDO);
     public int insertUsers(List<User> lists);
+    public User getUserMessage(String userName);
 }
